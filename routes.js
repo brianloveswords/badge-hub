@@ -5,7 +5,7 @@ var journey = require('journey'),
 router.map(function(){
   /* root */
   this.root.bind(function(req, res) {
-    res.send("Hub v0.1.0");
+    res.send({version: '0.1.0'});
   });
   /* issuer/ */
   this.post(/issuer\/?/).bind(function(req, res, data) {
