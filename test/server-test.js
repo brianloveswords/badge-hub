@@ -23,10 +23,11 @@ vows.describe("Issuer Methods").addBatch({
     }
   },
   
+  // TODO: make sure things that should NOT work don't work.
   'An issuer can' : {
     'register its identity': {
       topic: function() {
-        issuer.post.register('location=http://127.0.0.1:' + issuer.port + '/identity.json', this.callback)
+        issuer.post.register('identity=http://127.0.0.1:' + issuer.port + '/identity.json', this.callback)
       },
       'and get back its own manifest' : function(err, res) {
         assert.equal(res.body, JSON.stringify(issuer.identity));

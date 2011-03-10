@@ -27,7 +27,7 @@ Issuer.register = function(req, res, data) {
   }
 
   // get the identity and echo it back
-  getIdentity(data.location, function(err, response){
+  getIdentity(data.identity, function(err, response){
     var manifest = JSON.parse(response.body);
     res.send(manifest);
   })

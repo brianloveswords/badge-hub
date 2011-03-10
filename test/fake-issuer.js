@@ -2,8 +2,7 @@ var http = require('http'),
     settings = require('../settings')['testing'],
     journey = require('journey'),
     router = new(journey.Router),
-    colors = require('colours');
-
+    colors = require('colors');
 
 var identity = exports.identity = {
   name: 'Fake Issuer',
