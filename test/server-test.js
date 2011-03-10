@@ -47,12 +47,20 @@ vows.describe("Issuer Methods").addBatch({
       'and get back 201 Created' : function(err, status) {
         assert.equal(status, 201)
       },
-      'then update that badge': {
+      'update that badge': {
         topic: function() {
           issuer.put.badge('nothing', this.callback)
         },
         'and get back 200 OK' : function(err, status) {
           assert.equal(status, 200)
+        },
+        'then delete that badge': {
+          topic: function() {
+            issuer.del.badge('', this.callback)
+          },
+          'and get back 200 OK' : function(err, status) {
+            assert.equal(status, 200)
+          },
         },
       },
     },

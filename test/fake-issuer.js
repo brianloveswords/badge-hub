@@ -58,7 +58,6 @@ exports.get = {
     retrieveBody(getopt, '', callback);
   },
 };
-
 exports.post = {
   register : function(data, callback){
     postopt.path = '/issuer';
@@ -69,7 +68,6 @@ exports.post = {
     retrieveStatus(postopt, data, callback);
   },
 };
-
 exports.put = {
   update : function(data, callback){
     putopt.path = '/issuer/1';
@@ -80,7 +78,6 @@ exports.put = {
     retrieveStatus(putopt, data, callback);
   }
 };
-
 exports.del = {
   badge: function(data, callback) {
     delopt.path = '/issuer/badge/1';
