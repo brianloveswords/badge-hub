@@ -1,4 +1,4 @@
-{
+a{
   "name": "badge-hub",
   "description": "The hub part of the open badge infrastructure",
   "version": "0.1.0",
@@ -8,9 +8,9 @@
       "url": "http://github.com/brianlovesdata/badge-hub.git" 
   },
   "dependencies": {
-    "winston": ">= 0.2.5 < 1.0.0",
-    "vows": ">= 0.5.6 < 1.0.0",
-    "journey": ">= 0.2.0"
+    "vows": "~0.5",
+    "journey": "~0.3",
+    "colors": "~0.3"
   },
-  "engines": { "node": ">= 0.4.0 < 0.5.0" }
+  "engines": { "node": "~0.4.0" }
 }
