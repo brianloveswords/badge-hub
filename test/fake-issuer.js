@@ -1,7 +1,8 @@
 var http = require('http'),
     settings = require('../settings')['testing'],
     journey = require('journey'),
-    router = new(journey.Router);
+    router = new(journey.Router),
+    colors = require('colours');
 
 router.map(function(){
   this.root.bind(function(req, res) {
@@ -28,9 +29,6 @@ var postopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'POST'};
 var putopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'PUT'};
 var delopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'DELETE'};
 
-exports.start = function(){ server.listen(settings.port + 100) };
-exports.stop = function(){ server.close() };
-
 var retrieveStatus = function(opt, data, callback) {
   var req = http.request(opt, function(response){
     response.on('error', function(e){ callback(e, null) });
@@ -51,6 +49,15 @@ var retrieveBody = function(opt, data, callback) {
   })
   req.write(data); req.end();
 }
+
+exports.start = function(){
+  var port = settings.port + 1;
+  console.log(colors.green + 'Starting: ' + colors.reset + 'Fake Issuer on port ' + port + '...');
+  server.listen(port);
+};
+exports.stop = function(){
+  server.close()
+};
 
 // callbacks will be (err, data)
 exports.get = {
@@ -88,7 +95,6 @@ exports.del = {
 
 
 if (process.mainModule.filename == __filename) {
-  console.log('Fake Issuer listening on port ' + (settings.port + 100) + '…');
-  server.listen(settings.port + 100);
+  exports.start();
 }
 
