@@ -25,10 +25,10 @@ router.map(function(){
   this.del(/issuer\/badge\/(\d+)/).bind(function(req, res, id) {
     res.send("DELETE issuer/badge/" + id);
   });
-  
+
   // issuer: register
   this.post(/issuer\/?/).bind( hub.issuer.register );
-  
+
   // issuer: update
   this.put(/issuer\/(\d+)/).bind(function(req, res, id, data) {
     res.send({

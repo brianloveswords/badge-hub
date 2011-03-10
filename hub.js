@@ -25,14 +25,12 @@ Issuer.register = function(req, res, data) {
     options['method'] = 'GET';
     retrieveBody(options, '', callback)
   }
-  
+
   // get the identity and echo it back
   getIdentity(data.location, function(err, response){
     var manifest = JSON.parse(response.body);
     res.send(manifest);
   })
 }
-
-
 
 exports.issuer = Issuer;
