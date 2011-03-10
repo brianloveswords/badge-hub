@@ -1,12 +1,12 @@
 var router = require('./routes').router,
     http = require('http'),
-    colors = require('colours');
+    colors = require('colors');
 var environment = (process.env.ENV || 'development'),
     settings = require('./settings')[environment]
 
 // should die if invalid settings
 if (!settings) {
-  console.log('Invalid environment: ' + environment);
+  console.log('Invalid environment: '.red + environment);
   process.exit();
 }
 
@@ -22,15 +22,15 @@ var server = http.createServer(function(request, response){
 })
 
 exports.start = function(){
-  console.log(colors.green + 'Listening' + colors.white + ' • '  + colors.blue + settings.port + colors.reset + ' - ' + 'Hub');
+  console.log('Listening'.green + ' • ' + (settings.port + '').blue + ' - ' + 'Hub');
   server.listen(settings.port)
 };
 exports.stop = function(){
-  console.log(colors.red + 'Stopping:' + colors.reset + ' Hub on port ' + settings.port + '...');
+  console.log('Stopping:' + ' Hub on port ' + settings.port + '...');
   server.close()
 };
 
 if (process.mainModule.filename == __filename) {
-  console.log(colors.yellow + 'Using environment: ' + environment + colors.reset);
+  console.log(('Using environment: '+ environment).yellow );
   exports.start();
 }

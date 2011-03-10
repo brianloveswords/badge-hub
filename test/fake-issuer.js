@@ -60,7 +60,7 @@ var retrieveBody = function(opt, data, callback) {
 exports.port = settings.port + 1;
 exports.start = function(){
   var port = exports.port;
-  console.log(colors.green + 'Listening' + colors.white + ' • '  + colors.blue + port + colors.reset + ' - ' + 'Fake Issuer');
+  console.log('Listening'.green + ' • ' + (port + '').blue + ' - ' + 'Fake Issuer');
   server.listen(port);
 };
 exports.stop = function(){
