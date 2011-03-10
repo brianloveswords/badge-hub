@@ -1,0 +1,15 @@
+{
+  "name": "badge-hub",
+  "description": "The hub part of the open badge infrastructure",
+  "version": "0.1.0",
+  "author": "Brian Brennan <brian@mozillafoundation.org>",
+  "repository": {
+      "type": "git",
+      "url": "http://github.com/brianlovesdata/badge-hub.git" 
+  },
+  "dependencies": {
+    "winston": ">= 0.2.5 < 1.0.0",
+    "vows": ">= 0.5.6 < 1.0.0"
+  },
+  "engines": { "node": ">= 0.4.0 < 0.5.0" }
+}
