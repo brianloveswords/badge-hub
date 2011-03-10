@@ -10,16 +10,34 @@ var ip = '127.0.0.1';
 var port = settings.port;
 
 server.start();
-vows.describe("Basic Server Functions").addBatch({
+vows.describe("Issuer Methods").addBatch({
   'server can be prodded': {
     topic: function () {
       issuer.get.root(this.callback)
     },
-    'which should respond with a version number' : function(err, body){
+    'which should respond with a version number' : function(err, body) {
       var matches = !!body.version.match(/\d\.\d\.\d/);
-      assert.equal(true, matches);
+      assert.equal(matches, true);
     }
-  }
+  },
+  'issuer can register identity': {
+    topic: function() {
+      issuer.post.register('nothing', this.callback)
+    },
+    'which should respond with 201 Created' : function(err, status) {
+      assert.equal(status, 201)
+    }
+  },
+  // FIXME: make this and the previous test happen sequentially
+  'issuer can update identity manifest': {
+    topic: function() {
+      issuer.put.update('nothing', this.callback)
+    },
+    'which should respond with 200 OK' : function(err, status) {
+      assert.equal(status, 200)
+    }
+  },
+  
 }).export(module);
 
 
