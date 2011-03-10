@@ -54,14 +54,18 @@ if (process.mainModule.filename == __filename) {
     register : function(data, callback){
       postopt.path = '/issuer';
       var req = http.request(postopt, function(response){
-        var body = '';
-        response.on('error', function(e){
-          callback(e, null);
-        });
+        response.on('error', function(e){ callback(e, null) });
         callback(null, response.statusCode);
       })
-      req.write(data);
-      req.end();
+      req.write(data); req.end();
+    },
+    badge: function(data, callback) {
+      postopt.path = '/issuer/badge';
+      var req = http.request(postopt, function(response){
+        response.on('error', function(e){ callback(e, null) });
+        callback(null, response.statusCode);
+      })
+      req.write(data); req.end();
     }
   }
   
@@ -69,14 +73,18 @@ if (process.mainModule.filename == __filename) {
     update : function(data, callback){
       putopt.path = '/issuer/1';
       var req = http.request(putopt, function(response){
-        var body = '';
-        response.on('error', function(e){
-          callback(e, null);
-        });
+        response.on('error', function(e){callback(e, null)});
         callback(null, response.statusCode);
       })
-      req.write(data);
-      req.end();
+      req.write(data); req.end();
+    },
+    badge: function(data, callback) {
+      putopt.path = '/issuer/badge/1';
+      var req = http.request(putopt, function(response){
+        response.on('error', function(e){ callback(e, null) });
+        callback(null, response.statusCode);
+      })
+      req.write(data); req.end();
     }
   }
 }

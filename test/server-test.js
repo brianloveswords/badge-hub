@@ -11,7 +11,7 @@ var port = settings.port;
 
 server.start();
 vows.describe("Issuer Methods").addBatch({
-  'server can be prodded': {
+  'Server can be prodded': {
     topic: function () {
       issuer.get.root(this.callback)
     },
@@ -20,24 +20,41 @@ vows.describe("Issuer Methods").addBatch({
       assert.equal(matches, true);
     }
   },
-  'issuer can register identity': {
-    topic: function() {
-      issuer.post.register('nothing', this.callback)
-    },
-    'which should respond with 201 Created' : function(err, status) {
-      assert.equal(status, 201)
-    }
-  },
-  // FIXME: make this and the previous test happen sequentially
-  'issuer can update identity manifest': {
-    topic: function() {
-      issuer.put.update('nothing', this.callback)
-    },
-    'which should respond with 200 OK' : function(err, status) {
-      assert.equal(status, 200)
-    }
-  },
   
+  'An issuer can' : {
+    'register its identity': {
+      topic: function() {
+        issuer.post.register('nothing', this.callback)
+      },
+      'and get back 201 Created' : function(err, status) {
+        assert.equal(status, 201)
+      },
+      'then update its identity': {
+        topic: function() {
+          issuer.put.update('nothing', this.callback)
+        },
+        'and get back 200 OK' : function(err, status) {
+          assert.equal(status, 200)
+        },
+      },
+    },
+    'issue a badge': {
+      topic: function() {
+        issuer.post.badge('nothing', this.callback)
+      },
+      'and get back 201 Created' : function(err, status) {
+        assert.equal(status, 201)
+      },
+      'then update that badge': {
+        topic: function() {
+          issuer.put.badge('nothing', this.callback)
+        },
+        'and get back 200 OK' : function(err, status) {
+          assert.equal(status, 200)
+        },
+      },
+    },
+  },
 }).export(module);
 
 
