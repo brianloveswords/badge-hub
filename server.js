@@ -9,7 +9,7 @@ if (!settings) {
   process.exit();
 }
 
-http.createServer(function(request, response){
+var server = http.createServer(function(request, response){
   var body = '';
   request.addListener('data', function(chunk) { body += chunk });
   request.addListener('end', function() {
@@ -18,6 +18,14 @@ http.createServer(function(request, response){
       response.end(result.body);
     })
   })
-}).listen(settings.port);
-console.log('Using environment "' + environment + '"');
-console.log('Listening on port ' + settings.port + '…');
+})
+
+
+if (process.mainModule.filename == __filename) {
+  console.dir(process);
+  console.log('Using environment "' + environment + '"');
+  console.log('Listening on port ' + settings.port + '…');
+  server.listen(settings.port);
+} else {
+  exports.server = server;
+}
