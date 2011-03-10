@@ -27,7 +27,31 @@ if (process.mainModule.filename == __filename) {
   console.log('Fake Issuer listening on port ' + (settings.port + 100) + '…');
   server.listen(settings.port + 100);
 } else {
+  var options = {
+    host: '127.0.0.1',
+    port: settings.port,
+    path: '/'
+  }
   exports.start = function(){ server.listen(settings.port + 100) };
   exports.stop = function(){ server.close() };
+  
+  // callbacks will be (err, data)
+  exports.get = {
+    root : function(callback){
+      http.get(options, function(response){
+        var body = '';
+        response.on('data', function(chunk) {
+          body += chunk;
+        
+        }).on('end', function() {
+          callback(null, JSON.parse(body));
+        
+        }).on('error', function(e){
+          callback(e, null);
+        });
+      })
+    }
+  }
+  
 }
 

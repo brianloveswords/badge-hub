@@ -9,18 +9,20 @@ var vows = require('vows'),
 var ip = '127.0.0.1';
 var port = settings.port;
 
-server.start(); issuer.start();
+server.start();
 vows.describe("Basic Server Functions").addBatch({
-  'when server is prodded': {
+  'server can be prodded': {
     topic: function () {
-      return 'lol';
+      issuer.get.root(this.callback)
     },
-
-    'respond with version number' : function( topic ){
-      assert.equal( topic, 'lol' );
+    'which should respond with a version number' : function(err, body){
+      var matches = !!body.version.match(/\d\.\d\.\d/);
+      assert.equal(true, matches);
     }
   }
-}).run();
-server.stop(); issuer.stop();
+}).export(module);
+
+
+
 
 
