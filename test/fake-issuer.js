@@ -23,69 +23,75 @@ var server = http.createServer(function(request, response){
   });
 });
 
+var getopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'GET'};
+var postopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'POST'};
+var putopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'PUT'};
+var delopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'DELETE'};
+
+exports.start = function(){ server.listen(settings.port + 100) };
+exports.stop = function(){ server.close() };
+
+var retrieveStatus = function(opt, data, callback) {
+  var req = http.request(opt, function(response){
+    response.on('error', function(e){ callback(e, null) });
+    callback(null, response.statusCode);
+  })
+  req.write(data); req.end();
+}
+var retrieveBody = function(opt, data, callback) {
+  var req = http.request(opt, function(response){
+    var body = '';
+    response.on('data', function(chunk) {
+      body += chunk;
+    }).on('end', function() {
+      callback(null, {body: body, status: response.statusCode });
+    }).on('error', function(e){
+      callback(e, null);
+    });
+  })
+  req.write(data); req.end();
+}
+
+// callbacks will be (err, data)
+exports.get = {
+  root : function(callback){
+    retrieveBody(getopt, '', callback);
+  },
+};
+
+exports.post = {
+  register : function(data, callback){
+    postopt.path = '/issuer';
+    retrieveStatus(postopt, data, callback);
+  },
+  badge: function(data, callback) {
+    postopt.path = '/issuer/badge';
+    retrieveStatus(postopt, data, callback);
+  },
+};
+
+exports.put = {
+  update : function(data, callback){
+    putopt.path = '/issuer/1';
+    retrieveStatus(putopt, data, callback);
+  },
+  badge: function(data, callback) {
+    putopt.path = '/issuer/badge/1';
+    retrieveStatus(putopt, data, callback);
+  }
+};
+
+exports.del = {
+  badge: function(data, callback) {
+    delopt.path = '/issuer/badge/1';
+    retrieveStatus(delopt, data, callback);
+  },
+};
+
+
+
 if (process.mainModule.filename == __filename) {
   console.log('Fake Issuer listening on port ' + (settings.port + 100) + '…');
   server.listen(settings.port + 100);
-} else {
-  var getopt = {host: '127.0.0.1',port: settings.port,path: '/'};
-  var postopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'POST'};
-  var putopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'PUT'};
-  var delopt = {host: '127.0.0.1',port: settings.port,path: '/',method:'DELETE'};
-  
-  exports.start = function(){ server.listen(settings.port + 100) };
-  exports.stop = function(){ server.close() };
-  
-  // callbacks will be (err, data)
-  exports.get = {
-    root : function(callback){
-      http.get(getopt, function(response){
-        var body = '';
-        response.on('data', function(chunk) {
-          body += chunk;
-        }).on('end', function() {
-          callback(null, JSON.parse(body));
-        }).on('error', function(e){
-          callback(e, null);
-        });
-      })
-    }
-  }
-  exports.post = {
-    register : function(data, callback){
-      postopt.path = '/issuer';
-      var req = http.request(postopt, function(response){
-        response.on('error', function(e){ callback(e, null) });
-        callback(null, response.statusCode);
-      })
-      req.write(data); req.end();
-    },
-    badge: function(data, callback) {
-      postopt.path = '/issuer/badge';
-      var req = http.request(postopt, function(response){
-        response.on('error', function(e){ callback(e, null) });
-        callback(null, response.statusCode);
-      })
-      req.write(data); req.end();
-    }
-  }
-  
-  exports.put = {
-    update : function(data, callback){
-      putopt.path = '/issuer/1';
-      var req = http.request(putopt, function(response){
-        response.on('error', function(e){callback(e, null)});
-        callback(null, response.statusCode);
-      })
-      req.write(data); req.end();
-    },
-    badge: function(data, callback) {
-      putopt.path = '/issuer/badge/1';
-      var req = http.request(putopt, function(response){
-        response.on('error', function(e){ callback(e, null) });
-        callback(null, response.statusCode);
-      })
-      req.write(data); req.end();
-    }
-  }
 }
 

@@ -9,14 +9,16 @@ var vows = require('vows'),
 var ip = '127.0.0.1';
 var port = settings.port;
 
+/* most of the heavy lifting is done by fake-issuer */
 server.start();
 vows.describe("Issuer Methods").addBatch({
   'Server can be prodded': {
     topic: function () {
       issuer.get.root(this.callback)
     },
-    'which should respond with a version number' : function(err, body) {
-      var matches = !!body.version.match(/\d\.\d\.\d/);
+    'which should respond with a version number' : function(err, res) {
+      var version = JSON.parse(res.body).version;
+      var matches = !!version.match(/\d\.\d\.\d/);
       assert.equal(matches, true);
     }
   },
