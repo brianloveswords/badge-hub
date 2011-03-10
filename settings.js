@@ -1,10 +1,10 @@
 exports.testing = {
-  port: '9571'
+  port: 9571
 }
 exports.development = {
-  port: '8080'
+  port: 8080
 }
 exports.production = {
-  port: '1024'
+  port: 1024
 }
 
