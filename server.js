@@ -1,5 +1,13 @@
 var router = require('./routes').router,
     http = require('http');
+var environment = (process.env.ENV || 'development'),
+    settings = require('./settings')[environment]
+
+// should die if invalid settings
+if (!settings) {
+  console.log('Invalid environment: ' + environment);
+  process.exit();
+}
 
 http.createServer(function(request, response){
   var body = '';
@@ -10,5 +18,6 @@ http.createServer(function(request, response){
       response.end(result.body);
     })
   })
-}).listen(8080);
-console.dir('Listening on port 8080…');
+}).listen(settings.port);
+console.log('Using environment "' + environment + '"');
+console.log('Listening on port ' + settings.port + '…');

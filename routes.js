@@ -1,3 +1,4 @@
+var environment = (process.env.ENV || 'development');
 var journey = require('journey'),
     router = new(journey.Router);
 
