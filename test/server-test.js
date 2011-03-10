@@ -39,27 +39,27 @@ vows.describe("Issuer Methods").addBatch({
           assert.equal(status, 200)
         },
       },
-    },
-    'issue a badge': {
-      topic: function() {
-        issuer.post.badge('nothing', this.callback)
-      },
-      'and get back 201 Created' : function(err, status) {
-        assert.equal(status, 201)
-      },
-      'update that badge': {
+      'issue a badge': {
         topic: function() {
-          issuer.put.badge('nothing', this.callback)
+          issuer.post.badge('nothing', this.callback)
         },
-        'and get back 200 OK' : function(err, status) {
-          assert.equal(status, 200)
+        'and get back 201 Created' : function(err, status) {
+          assert.equal(status, 201)
         },
-        'then delete that badge': {
+        'update that badge': {
           topic: function() {
-            issuer.del.badge('', this.callback)
+            issuer.put.badge('nothing', this.callback)
           },
           'and get back 200 OK' : function(err, status) {
             assert.equal(status, 200)
+          },
+          'then delete that badge': {
+            topic: function() {
+              issuer.del.badge('', this.callback)
+            },
+            'and get back 200 OK' : function(err, status) {
+              assert.equal(status, 200)
+            },
           },
         },
       },
