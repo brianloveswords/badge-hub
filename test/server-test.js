@@ -10,7 +10,7 @@ var ip = '127.0.0.1';
 var port = settings.port;
 
 /* most of the heavy lifting is done by fake-issuer */
-server.start();
+[ server, issuer ].forEach(function($){ $.start() });
 vows.describe("Issuer Methods").addBatch({
   'Server can be prodded': {
     topic: function () {
@@ -26,10 +26,10 @@ vows.describe("Issuer Methods").addBatch({
   'An issuer can' : {
     'register its identity': {
       topic: function() {
-        issuer.post.register('nothing', this.callback)
+        issuer.post.register('location=http://127.0.0.1:' + issuer.port + '/identity.json', this.callback)
       },
-      'and get back 201 Created' : function(err, status) {
-        assert.equal(status, 201)
+      'and get back its own manifest' : function(err, res) {
+        assert.equal(res.body, JSON.stringify(issuer.identity));
       },
       'then update its identity': {
         topic: function() {

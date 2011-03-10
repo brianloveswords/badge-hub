@@ -22,7 +22,7 @@ var server = http.createServer(function(request, response){
 })
 
 exports.start = function(){
-  console.log(colors.green + 'Listening:' + colors.reset + ' Hub on on port ' + settings.port + '...');
+  console.log(colors.green + 'Listening' + colors.white + ' • '  + colors.blue + settings.port + colors.reset + ' - ' + 'Hub');
   server.listen(settings.port)
 };
 exports.stop = function(){

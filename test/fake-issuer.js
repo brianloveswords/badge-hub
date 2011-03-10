@@ -4,12 +4,19 @@ var http = require('http'),
     router = new(journey.Router),
     colors = require('colours');
 
+
+var identity = exports.identity = {
+  name: 'Fake Issuer',
+  description: 'I issue fake badges and drink tigerblood',
+  key: 'somekey'
+}
+
 router.map(function(){
   this.root.bind(function(req, res) {
     res.send("Fake Issuer v0.1.0");
   });
-  this.get(/id\/?/).bind(function(req, res, data) {
-    res.send(data);
+  this.get(/identity(\.json)?/).bind(function(req, res) {
+    res.send(identity);
   })
 })
 
@@ -50,9 +57,10 @@ var retrieveBody = function(opt, data, callback) {
   req.write(data); req.end();
 }
 
+exports.port = settings.port + 1;
 exports.start = function(){
-  var port = settings.port + 1;
-  console.log(colors.green + 'Starting: ' + colors.reset + 'Fake Issuer on port ' + port + '...');
+  var port = exports.port;
+  console.log(colors.green + 'Listening' + colors.white + ' • '  + colors.blue + port + colors.reset + ' - ' + 'Fake Issuer');
   server.listen(port);
 };
 exports.stop = function(){
@@ -68,7 +76,7 @@ exports.get = {
 exports.post = {
   register : function(data, callback){
     postopt.path = '/issuer';
-    retrieveStatus(postopt, data, callback);
+    retrieveBody(postopt, data, callback);
   },
   badge: function(data, callback) {
     postopt.path = '/issuer/badge';
@@ -91,7 +99,6 @@ exports.del = {
     retrieveStatus(delopt, data, callback);
   },
 };
-
 
 
 if (process.mainModule.filename == __filename) {

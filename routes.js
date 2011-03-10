@@ -1,5 +1,6 @@
 var environment = (process.env.ENV || 'development');
-var journey = require('journey'),
+var hub = require('./hub'),
+    journey = require('journey'),
     router = new(journey.Router);
 
 router.map(function(){
@@ -25,13 +26,10 @@ router.map(function(){
     res.send("DELETE issuer/badge/" + id);
   });
   
-  /* issuer/ */
-  this.post(/issuer\/?/).bind(function(req, res, data) {
-    res.send({
-      route: "POST issuer/",
-      data: data
-    });
-  });
+  // issuer: register
+  this.post(/issuer\/?/).bind( hub.issuer.register );
+  
+  // issuer: update
   this.put(/issuer\/(\d+)/).bind(function(req, res, id, data) {
     res.send({
       route: "PUT issuer/" + id,
