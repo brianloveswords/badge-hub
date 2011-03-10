@@ -26,5 +26,8 @@ var server = http.createServer(function(request, response){
 if (process.mainModule.filename == __filename) {
   console.log('Fake Issuer listening on port ' + (settings.port + 100) + '…');
   server.listen(settings.port + 100);
+} else {
+  exports.start = function(){ server.listen(settings.port + 100) };
+  exports.stop = function(){ server.close() };
 }
 

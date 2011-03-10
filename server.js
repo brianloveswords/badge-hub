@@ -27,5 +27,6 @@ if (process.mainModule.filename == __filename) {
   console.log('Listening on port ' + settings.port + '…');
   server.listen(settings.port);
 } else {
-  exports.server = server;
+  exports.start = function(){ server.listen(settings.port) };
+  exports.stop = function(){ server.close() };
 }
